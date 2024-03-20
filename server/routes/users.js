@@ -4,9 +4,9 @@ const db = require('../config/db');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  db.query('SELECT * FROM customers', (err, rows) => {
+  db.query('SELECT * FROM customer', (err, rows) => {
     if (err) {
-      res.status(500).send('Error');
+      console.log(err)
     } else {
       res.json(rows);
     }
