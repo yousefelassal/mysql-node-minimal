@@ -1,10 +1,23 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+type User = {
+  id: number
+  FirstName: string
+  LastName: string
+}
+
 function App() {
   const [count, setCount] = useState(0)
+  const [data, setData] = useState<User[]>([])
+
+  useEffect(() => {
+    fetch('/api/users')
+      .then((res) => res.json())
+      .then((data:User[]) => setData(data))
+  }, [])
 
   return (
     <>
@@ -17,6 +30,12 @@ function App() {
         </a>
       </div>
       <h1>Vite + React</h1>
+      <h2>Users</h2>
+      <ul>
+        {data.map((user) => (
+          <li key={user.id}>{user.FirstName} {user.LastName}</li>
+        ))}
+      </ul>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
