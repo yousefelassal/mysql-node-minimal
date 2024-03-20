@@ -11,12 +11,15 @@ type User = {
 
 function App() {
   const [count, setCount] = useState(0)
+  const [loading, setLoading] = useState(false)
   const [data, setData] = useState<User[]>([])
 
   useEffect(() => {
+    setLoading(true)
     fetch('/api/users')
       .then((res) => res.json())
       .then((data:User[]) => setData(data))
+      .finally(() => setLoading(false))
   }, [])
 
   return (
@@ -32,6 +35,7 @@ function App() {
       <h1>Vite + React</h1>
       <h2>Users</h2>
       <ul>
+        {loading && <li>Loading...</li>}
         {data.map((user) => (
           <li key={user.id}>{user.FirstName} {user.LastName}</li>
         ))}
