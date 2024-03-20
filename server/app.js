@@ -4,6 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors'); 
+const db = require('./config/db');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -16,6 +17,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static('dist'))
+
+db.connect((err) => {
+  if (err) {
+    console.log('Error connecting to database: ' + err);
+  } else {
+    console.log('Connected to database');
+  }
+})
 
 app.use('/api', indexRouter);
 app.use('/api/users', usersRouter);
